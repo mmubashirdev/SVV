@@ -13,7 +13,7 @@ This repository is for learning **Software Verification and Validation (SVV)** a
 ## Recommended Industry V&V Stack
 
 | Area | Tools / Technologies | 
-| --- | --- | --- |
+| --- | --- |
 | API testing | Postman, Newman | 
 | Unit testing | Jest / Vitest | 
 | Backend/API integration testing | Supertest | 
