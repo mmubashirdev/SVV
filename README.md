@@ -1,6 +1,6 @@
-# SVV — Software Verification, Validation & SQA Learning Roadmap
+# SVV Software Verification, Validation & SQA Learning Roadmap
 
-This repository is for learning **Software Verification and Validation (SVV)** and **Software Quality Assurance (SQA)** with an industry-focused approach.
+This repository is for learning **Software Verification and Validation (SVV)** and **Software Quality Assurance (SQA)** with an industry focused approach.
 
 ## Core Course Perspective
 
@@ -12,26 +12,26 @@ This repository is for learning **Software Verification and Validation (SVV)** a
 
 ## Recommended Industry V&V Stack
 
-| Area | Tools / Technologies | Priority |
+| Area | Tools / Technologies | 
 | --- | --- | --- |
-| API testing | Postman, Newman | ⭐⭐⭐⭐⭐ |
-| Unit testing | Jest / Vitest | ⭐⭐⭐⭐⭐ |
-| Backend/API integration testing | Supertest | ⭐⭐⭐⭐⭐ |
-| E2E & browser testing | Playwright | ⭐⭐⭐⭐⭐ |
-| Bug tracking | Jira | ⭐⭐⭐⭐ |
-| Static analysis | ESLint, TypeScript | ⭐⭐⭐⭐ |
-| Code quality | SonarQube | ⭐⭐⭐ |
-| Code coverage | Istanbul / c8 | ⭐⭐⭐⭐ |
-| Performance testing | k6 | ⭐⭐⭐⭐ |
-| CI/CD | GitHub Actions | ⭐⭐⭐⭐⭐ |
-| Security testing | OWASP ZAP | ⭐⭐⭐ |
-| Database testing | PostgreSQL + SQL | ⭐⭐⭐⭐ |
-| Version control | Git / GitHub | ⭐⭐⭐⭐⭐ |
-| Test documentation | Markdown + Jira/TestRail | ⭐⭐⭐ |
+| API testing | Postman, Newman | 
+| Unit testing | Jest / Vitest | 
+| Backend/API integration testing | Supertest | 
+| E2E & browser testing | Playwright | 
+| Bug tracking | Jira | 
+| Static analysis | ESLint, TypeScript | 
+| Code quality | SonarQube | 
+| Code coverage | Istanbul / c8 | 
+| Performance testing | k6 |
+| CI/CD | GitHub Actions | 
+| Security testing | OWASP ZAP | 
+| Database testing | PostgreSQL + SQL | 
+| Version control | Git / GitHub | 
+| Test documentation | Markdown + Jira/TestRail | 
 
 ---
 
-## Primary Learning Focus (High ROI)
+## Primary Learning Focus
 
 1. **Playwright** (modern E2E + browser automation)
 2. **Jest/Vitest** (unit testing fundamentals using AAA: Arrange, Act, Assert)
@@ -45,29 +45,29 @@ This repository is for learning **Software Verification and Validation (SVV)** a
 
 ---
 
-## Learning Order
+### Learning Order
 
-### Phase 1 — Fundamentals
+## Fundamentals
 
 V&V concepts → testing levels → test cases → test design techniques → defect management
 
-### Phase 2 — JavaScript/TypeScript Testing Stack
+## JavaScript/TypeScript Testing Stack
 
 Vitest/Jest → Supertest → Postman → Newman
 
-### Phase 3 — Real Application Testing
+## Real Application Testing
 
 Playwright → E2E workflows → fixtures/test data → mocking → regression suites
 
-### Phase 4 — Engineering Quality
+## Engineering Quality
 
 ESLint → TypeScript strictness → SonarQube → coverage metrics
 
-### Phase 5 — Professional Workflow
+# Professional Workflow
 
 GitHub → GitHub Actions → automated test pipeline
 
-### Phase 6 — Advanced Topics
+## Advanced Topics
 
 k6 → OWASP ZAP → Docker-based testing → environment strategy
 
@@ -82,20 +82,10 @@ k6 → OWASP ZAP → Docker-based testing → environment strategy
 
 These are essential because tools change, but test design thinking remains valuable across projects.
 
----
 
-## Suggested Semester Project Direction
-
-Build an **Internship Portal + Automated V&V Pipeline**:
-
-- Frontend: React + TypeScript
-- Backend: Express API
-- Database: PostgreSQL
 - Quality pipeline:
   - Unit tests (Jest/Vitest)
   - API/integration tests (Supertest/Postman)
   - E2E tests (Playwright)
   - CI automation (GitHub Actions)
   - Quality and performance checks (ESLint, SonarQube, k6)
-
-This creates a strong software-engineering profile with practical V&V depth.
