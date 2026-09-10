@@ -1,16 +1,27 @@
-#SRE
+# Software Requirements Engineering (SRE)
 
-Software Requirement engineering 
+Software requirements engineering involves eliciting, analysing, and specifying the requirements for a software system.
 
-Elicitation, analysis, brainstorm, storytelling, workshop, meeting, remove ambiguity, interview, survey, workshop, 
-Observation, prototype, usecase, reverse engineering 
+Elicitation techniques:
+- Brainstorming
+- Storytelling
+- Workshops
+- Meetings
+- Interviews
+- Surveys
+- Observation
+- Prototyping
+- Use cases
+- Reverse engineering
+- Clarification and ambiguity removal
 
-client requirements
-user requirements 
-product requirements 
-business requirements 
-technical requirements 
+Types of requirements:
+- Client requirements
+- User requirements
+- Product requirements
+- Business requirements
+- Technical requirements
 
-Bad requirement: user must login fast
-Good requirement: Already registered user can login with valid credentials within 2 seconds under 10000 concurrent user load
-
+Examples:
+- Bad requirement: "User must log in fast."
+- Good requirement: "An already-registered user can log in with valid credentials within 2 seconds under a load of 10,000 concurrent users."
