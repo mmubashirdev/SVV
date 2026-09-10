@@ -89,3 +89,13 @@ These are essential because tools change, but test design thinking remains valua
   - E2E tests (Playwright)
   - CI automation (GitHub Actions)
   - Quality and performance checks (ESLint, SonarQube, k6)
+ 
+##Verification and validation 
+
+verification:
+ are we building the product right?
+ Developer/ QA testing 
+validation:
+Have we build the right product? 
+beta testing, end user testing 
+
