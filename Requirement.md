@@ -28,7 +28,7 @@ Mission Control shall receive the execution status of each command sent to a rov
 The system shall record all commands and critical rover events with a timestamp and operator ID.
 
 ### NFR-2
-
+The system shall require authenticated and role authorize operators before accepting rover command
 
 ### NFR-3
 The rover shall normally complete command processing within 5 seconds after receiving a valid command.
