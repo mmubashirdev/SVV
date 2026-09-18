@@ -34,4 +34,4 @@ The system shall record all commands and critical rover events with a timestamp 
 The rover shall normally complete command processing within 5 seconds after receiving a valid command.
 
 ### NFR-4
-The system shall support connect rovers
+The system shall support at least 20 simultaneously connect rovers
