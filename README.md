@@ -2,6 +2,10 @@
 
 This repository is for learning **Software Verification and Validation (SVV)** and **Software Quality Assurance (SQA)** with an industry focused approach.
 
+## Need to learn:
+
+Playwright, Cypress, Selenium, Jest, Vitest, GitHub Actions, Postman
+
 ## Core Course Perspective
 
 - **Software Verification:** *Are we building the product right?*
