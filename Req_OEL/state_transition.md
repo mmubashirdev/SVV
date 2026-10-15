@@ -34,14 +34,6 @@
 | `LinkRestored` | Communication is restored and validated. | `LINK_LOST` |
 | `RecoveryAuthorised` | An approved recovery procedure permits operation to resume. | `SAFE_MODE` or `LINK_LOST` |
 
-### Difference between a state and an event
-
-- **State:** A situation that persists over time, such as `NAVIGATING`.
-- **Event:** Something that happens and may trigger a transition, such as `ObstacleDetected`.
-- **Condition:** A fact that can be evaluated, such as battery capacity being below the emergency threshold.
-
-For example, `AVOIDING_OBSTACLE` is a state. `ObstacleCleared` is an event that can move the robot back to `NAVIGATING`.
-
 ## 3. State Transition Table
 
 The format is **Current State + Event/Condition → Next State**. Invalid transitions are included as negative tests.
@@ -90,27 +82,11 @@ The format is **Current State + Event/Condition → Next State**. Invalid transi
 
 `SAFE_MODE` should be reachable from all operational states: `IDLE`, `NAVIGATING`, `AVOIDING_OBSTACLE`, `DELIVERING`, and `RETURNING`, when a CR-01 critical condition is detected.
 
-The robot must enter Safe Mode within 3 seconds and inhibit normal delivery activity. The physical response—such as braking, holding position, or moving to a safe stopping point—must be specified using the robot's hazard analysis and hardware capabilities.
-
-The original scenario says a critically low battery during navigation causes the robot to abandon delivery and return to the warehouse. CR-01 additionally requires Safe Mode within 3 seconds. A safe interpretation is:
-
-1. Detect the critical battery condition.
-2. Enter Safe Mode within 3 seconds.
-3. Follow an approved safety assessment and recovery policy.
-4. Initiate a return only if the robot can do so safely.
-
-Do not assume that entering Safe Mode and immediately returning to the warehouse mean the same thing.
 
 ### Link Lost
 
 `LINK_LOST` should be reachable from all relevant operational states, including `IDLE`, `NAVIGATING`, `AVOIDING_OBSTACLE`, `DELIVERING`, and `RETURNING`, if loss of the remote link affects safe operation.
 
-The link-loss requirement should specify:
-
-1. The exact timeout that triggers the state.
-2. Which local actions remain permitted without the remote link.
-3. How the robot reaches a safe condition if the link fails during obstacle handling.
-4. The checks required before resuming operation.
 
 If the link is restored while the robot is in `LINK_LOST`, it should not automatically resume its previous action. The system must validate the connection and the safety of resuming first. If a CR-01 critical condition occurs while the link is lost, `SAFE_MODE` takes priority in this proposed model.
 
@@ -190,5 +166,3 @@ The original scenario's return-to-warehouse behaviour and CR-01's Safe Mode requ
 4. `CriticalBattery` must be handled during obstacle handling and delivery, not only during navigation.
 5. Safe Mode and Link Lost require explicit entry, priority, and recovery rules.
 6. Every transition should be verified with test evidence, not simply assumed correct because it appears in a table.
-
-**Verifier's main finding:** A state model can look complete while still containing dangerous gaps. Check every state against important events, explicitly reject forbidden transitions, and ensure safety events take priority over normal delivery behaviour.
