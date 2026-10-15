@@ -47,11 +47,6 @@ The format is **Current State + Event/Condition → Next State**. Invalid transi
 | `NAVIGATING` | `ObstacleDetected` | `AVOIDING_OBSTACLE` | FR-04 | Yes | Verify navigation suspends and obstacle handling begins. |
 | `AVOIDING_OBSTACLE` | `ObstacleCleared` | `NAVIGATING` | FR-04 | Yes | Verify the path is confirmed clear before navigation resumes. |
 | `AVOIDING_OBSTACLE` | `DestinationReached` | `DELIVERING` | FR-03, FR-04, INV-02 | **No** | Confirm delivery remains inhibited while the robot handles an obstacle. |
-| `NAVIGATING` | `DestinationReached` | `DELIVERING` | FR-03 | Yes | Verify delivery starts only after reaching the destination from navigation. |
-| `DELIVERING` | `PackageDelivered` | `RETURNING` | FR-03 | Yes | Confirm package handover completion initiates the return trip. |
-| `RETURNING` | `WarehouseReached` | `IDLE` | FR-03 | Yes | Verify the robot returns to its waiting state. |
-| `NAVIGATING` | `CriticalBattery` | `SAFE_MODE` within 3 seconds | CR-01 | Yes | Timestamp the event and Safe Mode entry; confirm normal delivery activity is inhibited. |
-| `AVOIDING_OBSTACLE` | `CriticalBattery` | `SAFE_MODE` within 3 seconds | CR-01 | Yes; safety policy required | Verify Safe Mode entry within 3 seconds and safe handling of the obstacle. |
 | `DELIVERING` | `CriticalBattery` | `SAFE_MODE` within 3 seconds | CR-01 | Yes | Verify delivery is interrupted and Safe Mode is entered within 3 seconds. |
 | `RETURNING` | `CriticalBattery` | `SAFE_MODE` within 3 seconds | CR-01 | Yes | Verify Safe Mode entry and that unsafe movement is inhibited. |
 | Any operational state | `CriticalThermalCondition` | `SAFE_MODE` within 3 seconds | CR-01 | Yes | Verify temperature fault, Safe Mode entry time, alarm, and event log. |
@@ -65,7 +60,6 @@ The format is **Current State + Event/Condition → Next State**. Invalid transi
 | `LINK_LOST` | `LinkRestored` + `RecoveryAuthorised` + safety checks pass | Approved recovery state, normally `IDLE` | HR-03* | Proposed | Verify connection, command validity, and safety checks before resumption. |
 | `SAFE_MODE` | Critical condition cleared + `RecoveryAuthorised` | Approved recovery state, normally `IDLE` | CR-01 | Proposed | Confirm the critical condition is cleared and recovery is authorised before operation resumes. |
 
-\* Confirm the exact wording and timeout of HR-03 against the approved requirements baseline. Confirm FR-03 and FR-04 wording as well.
 
 ### Requirement and invariant references
 
