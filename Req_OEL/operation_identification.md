@@ -1,4 +1,4 @@
-# Operation Identification & Operation Schema — Conservation Chamber
+# Operation Identification
 
 ## 1. Identified Operations
 
