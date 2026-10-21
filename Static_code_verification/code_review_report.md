@@ -1,11 +1,4 @@
-# Software Verification and Validation (SVV) – Code Review Report
-
-**Project:** Text-Based Monster Battle Game  
-**File reviewed:** `game.cpp`  
-**Review type:** Static code review  
-**Severity scale:** Critical = likely crash, undefined behavior, or serious memory-safety issue; High = major correctness/resource-management defect; Medium = incorrect results or robustness issue; Low = limited impact or maintainability concern.
-
-> Line numbers below refer to the supplied `game.cpp`, counting the first line (`// game.cpp`) as line 1.
+# Software Verification and Validation (SVV)
 
 | Line Number | Defect Type | Why It Is a Problem |  Solution | Severity |
 |---:|---|---|---|---|

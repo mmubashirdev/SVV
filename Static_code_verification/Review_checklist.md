@@ -1,4 +1,4 @@
-# Software Verification and Validation (SVV) – Code Review Checklist
+# Software Verification and Validation (SVV)
 
 | Category | Result / Issues / OK |
 |---|---|
