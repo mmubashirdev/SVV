@@ -1,0 +1,14 @@
+# Software Verification and Validation (SVV) – Code Review Checklist
+
+| Category | Result / Issues / OK |
+|---|---|
+| **Initialization** | **Issues found:** `sum` in `averageAttack()` is uninitialized. `monsters` array elements are not initialized, and `monsterCount` can exceed the array capacity. |
+| **Pointer Null / Delete** | **Issues found:** `attackMonster()` dereferences a null pointer when the monster ID is not found. `defeatMonster()` deletes a pointer and then accesses `m->name`, causing use-after-free. `bonus` is never deleted, causing a memory leak. |
+| **Arrays / Buffers** | **Issues found:** `spawnMonster()` can exceed `MAX_MONSTERS` because six monsters are spawned when the limit is five. `readBoss()` allocates only 10 characters for the boss name, risking a buffer overflow. `delete name` should be `delete[] name`. |
+| **Loop Errors** | **Issues found:** `totalMonsterHealth()` uses `i <= monsterCount` instead of `i < monsterCount`, causing an out-of-bounds access. |
+| **Arithmetic Errors** | **Issues found:** `attackMonster()` uses an unsigned damage variable and checks whether a value is less than zero, which cannot work as intended. `calculateDamage()` performs integer arithmetic, potentially losing fractional results. `averageAttack()` divides by zero if there are no monsters. |
+| **Control Flow Errors** | **Issues found:** `findMonster()` uses assignment (`=`) instead of comparison (`==`), so it modifies monster IDs and returns incorrect results. `playerRank()` does not return a value when the score is 100 or below. |
+| **Function Call** | **Issues found:** `attackMonster(99, 20)` may dereference a null pointer. `getMonsterLabel(2)` depends on the faulty `findMonster()`. `readBoss()` passes a character buffer to `spawnMonster()` without safely validating the input. |
+| **Classes** | **Issues found:** `Game` owns raw pointers but does not implement safe copy construction or copy assignment. `Game copy = game;` causes a shallow copy and can lead to double deletion. `defeatMonster()` does not remove the defeated monster from the array or decrement `monsterCount`. |
+
+**Overall result:** The code fails the static code review due to memory safety problems, incorrect conditions, array boundary violations, and unsafe object copying. These issues should be fixed before execution and further testing.

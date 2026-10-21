@@ -1,0 +1,43 @@
+# Software Verification and Validation (SVV) – Code Review Report
+
+**Project:** Text-Based Monster Battle Game  
+**File reviewed:** `game.cpp`  
+**Review type:** Static code review  
+**Severity scale:** Critical = likely crash, undefined behavior, or serious memory-safety issue; High = major correctness/resource-management defect; Medium = incorrect results or robustness issue; Low = limited impact or maintainability concern.
+
+> Line numbers below refer to the supplied `game.cpp`, counting the first line (`// game.cpp`) as line 1.
+
+| Line Number | Defect Type | Why It Is a Problem |  Solution | Severity |
+|---:|---|---|---|---|
+| 35–37 | Array capacity / out-of-bounds write | `spawnMonster()` writes to `monsters[monsterCount]` without checking capacity. The program spawns six monsters even though `MAX_MONSTERS` is 5, so the sixth spawn writes beyond the array. | Check `monsterCount < MAX_MONSTERS` before inserting. Reject the spawn or use a dynamically sized container such as `std::vector`. | Critical |
+| 45 | Assignment instead of comparison | `if (monsters[i]->id = id)` changes the monster's ID instead of checking it. Any nonzero assigned ID makes the condition true, so lookup returns the wrong monster and mutates its ID. | Replace `=` with `==`: `if (monsters[i]->id == id)`. | High |
+| 54–57 | Null-pointer dereference / signed-unsigned arithmetic | If `findMonster(id)` returns `nullptr`, `m->health` dereferences a null pointer. Also, `dmg` is unsigned, so the comparison against zero cannot correctly detect negative health; converting negative damage to unsigned can produce a very large value. | Check `if (m == nullptr)` before use. Validate `damage >= 0`, use signed integer arithmetic, and clamp health at zero. | Critical |
+| 63 | Loop boundary / out-of-bounds read | `i <= monsterCount` accesses one element beyond the active monster range. When the count equals the capacity, it also accesses outside the array. | Change the condition to `i < monsterCount`. | High |
+| 69–71 | Returning reference to local variable | `label` is a local variable. Returning `std::string&` to it leaves a dangling reference after the function returns, causing undefined behavior when used. | Return by value: `std::string getMonsterLabel(int id)`. Also check whether `findMonster()` returned `nullptr` before accessing `m->id` or `m->name`. | Critical |
+| 75 | Uninitialized variable | `sum` is declared but never initialized, so adding attack values to it uses an indeterminate value and produces undefined or unpredictable behavior. | Initialize it: `double sum = 0.0;`. | High |
+| 76–78 | Division by zero / incorrect average | If `monsterCount` is zero, the function divides by zero. Also, the function returns `int`, discarding any fractional average. | Return a `double`, initialize the sum, and handle `monsterCount == 0` before dividing. | High |
+| 82–84 | Use-after-free / null-pointer risk | `delete m` frees the object, then `m->name` accesses freed memory. If the ID is not found, deleting `nullptr` is safe, but dereferencing it afterward is not. | Check `m` for null, save the name before deletion, and remove the pointer from the active array while updating `monsterCount`. Prefer `std::unique_ptr` or value-based storage. | Critical |
+| 88 | Integer arithmetic / possible truncation | Both parameters are integers, so `attack * armorPercent / 100` uses integer arithmetic before conversion to `double`. Fractional damage is discarded. | Use floating-point arithmetic if fractional damage is intended, e.g. `return attack * (armorPercent / 100.0);`. Validate the allowed range of `armorPercent`. | Medium |
+| 94–97 | Missing return path | `playerRank()` returns a value only when `score > 100`. For scores of 100 or less, control reaches the end of a non-void function, causing undefined behavior when the result is used. | Add a final `return` for the remaining score range, or define and handle invalid scores explicitly. | High |
+| 101–103 | Buffer overflow / unsafe input | `name` has space for only 10 characters, but `std::cin >> name` has no length limit. A longer input can overwrite memory. | Use `std::string name` and read into it, or use a bounded input method. Check input success before using the values. | Critical |
+| 106 | Incorrect array deallocation | Memory allocated with `new char[10]` must be released with `delete[]`, not scalar `delete`. Mismatched allocation/deallocation is undefined behavior. | Replace `delete name;` with `delete[] name;`, or preferably remove manual allocation and use `std::string`. | High |
+| 114 | Memory leak | `bonus` is allocated with `new` but is never deleted. | Avoid owning raw pointers where possible; use a local object or `std::unique_ptr`. If raw allocation remains, ensure it is released. | Medium |
+| 116 | Invalid monster ID / missing error handling | `attackMonster(99, 20)` requests a monster ID that was not spawned. Because the returned pointer is not checked, this call can crash. | Make `attackMonster()` safely handle a missing monster and return an explicit failure result or status. | Critical |
+| 119 | Copying an owning raw-pointer class | `Game copy = game;` performs a shallow copy of the pointer array. Both objects then own the same monsters, so their destructors can delete the same objects twice. | Implement the Rule of Three/Five correctly, or disable copying, or use `std::vector<std::unique_ptr<Monster>>` and define suitable copy behavior. | Critical |
+| 28–31, 119 | Object ownership / copy safety | `Game` owns dynamically allocated `Monster` objects but does not define copy construction or copy assignment. This makes copying unsafe and can cause double deletion or dangling pointers. | Use RAII containers such as `std::vector<std::unique_ptr<Monster>>`, or implement deep-copy semantics and the Rule of Five. | Critical |
+| 35–37, 82–84 | Collection consistency | `defeatMonster()` deletes a monster but does not remove its pointer from the array or decrement `monsterCount`. Later operations may access a dangling pointer or count a deleted monster. | Find the monster's array index, delete/remove it, shift remaining entries if using a fixed array, and decrement the count. | Critical |
+| 101–105 | Input validation | The code does not check whether input succeeds or whether health is a sensible positive value. Invalid input can leave variables unusable or create invalid game state. | Check stream state after each read and validate health before calling `spawnMonster()`. | Medium |
+
+### Fix
+
+1. Prevent array overflow in `spawnMonster()`.
+2. Correct `findMonster()` and check all returned pointers.
+3. Fix `getMonsterLabel()` to return a string by value.
+4. Repair `attackMonster()` arithmetic and missing-monster handling.
+5. Fix `totalMonsterHealth()` loop bounds.
+6. Correct `averageAttack()` initialization and zero-count handling.
+7. Fix `defeatMonster()` ownership and array bookkeeping.
+8. Replace the unsafe boss-name buffer with `std::string`.
+9. Make `Game` copying safe or explicitly disable copying.
+10. Add missing return paths and input validation.
+
